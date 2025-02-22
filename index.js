@@ -55,6 +55,7 @@ async function run() {
         res.send(result)
     })
 
+
     app.delete('/tasks/:id', async(req, res) => {
         const id = req.params.id;
         const query = {_id: new ObjectId(id)}
@@ -76,6 +77,20 @@ async function run() {
         const result = await taskCollection.updateOne(filter, updatedTask)
         res.send(result)
     })
+
+    app.put('/tasks/category/:id', async (req, res) => {
+        const id = req.params.id;
+        const { category } = req.body;  // ✅ Extract only category
+    
+        const filter = { _id: new ObjectId(id) };
+        const update = {
+            $set: { category }  // ✅ Update only the category field
+        };
+    
+        const result = await taskCollection.updateOne(filter, update);
+        res.send(result);
+    });
+    
 
 
     // Send a ping to confirm a successful connection
